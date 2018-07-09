@@ -174,15 +174,13 @@ func (p *NodePopulator) DetectNetworks() (int, error) {
 	var updates int
 	for networkId, detected := range detected {
 		_, ok := p.Node.Networks[networkId]
-		if networkId != "" {
-			if !ok {
-				p.Node.Networks[networkId] = &inventorytypes.NICInfo{}
-			}
+		if !ok {
+			p.Node.Networks[networkId] = &inventorytypes.NICInfo{}
+		}
 
-			if p.Node.Networks[networkId].MAC.String() != detected.MAC.String() {
-				p.Node.Networks[networkId].MAC = detected.MAC
-				updates += 1
-			}
+		if p.Node.Networks[networkId].MAC.String() != detected.MAC.String() {
+			p.Node.Networks[networkId].MAC = detected.MAC
+			updates += 1
 		}
 	}
 	return updates, nil
