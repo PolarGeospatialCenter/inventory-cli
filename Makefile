@@ -1,7 +1,7 @@
 vendor: Gopkg.lock
-	dep ensure 
+	dep ensure
 
-test: deps
+test: vendor
 	go test -cover ./cmd/...
 
 linux: vendor
