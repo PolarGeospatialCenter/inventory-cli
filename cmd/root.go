@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path"
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
@@ -61,8 +62,9 @@ func initConfig() {
 		}
 
 		// Search config in home directory with name ".cobra" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigName(".inventory-cli")
+		viper.AddConfigPath(path.Join(home, ".inventory-cli"))
+		viper.AddConfigPath("/etc/inventory-cli")
+		viper.SetConfigName("inventory-cli")
 	}
 
 	if err := viper.ReadInConfig(); err != nil {
