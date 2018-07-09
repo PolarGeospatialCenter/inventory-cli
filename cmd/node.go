@@ -3,7 +3,10 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/PolarGeospatialCenter/inventory-cli/pkg/ingestlib"
@@ -92,11 +95,22 @@ var cmdNodeDetectNetworks = &cobra.Command{
 	Use:   "detect-networks nodeId",
 	Short: "Detect networks connected to this node and update it",
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 1 {
-			log.Fatalf("please supply a node id")
+		var nodeId string
+		if nodeIdFile := os.Getenv("NODEID_FILE"); nodeIdFile != "" {
+			nodeIdRaw, err := ioutil.ReadFile(nodeIdFile)
+			if err != nil {
+				log.Fatalf("Unable to read nodeid from NODEID_FILE=%s: %v", nodeIdFile, err)
+			}
+			nodeId = strings.TrimSpace(string(nodeIdRaw))
 		}
 
-		nodeId := args[0]
+		if len(args) == 1 {
+			nodeId = args[0]
+		}
+
+		if nodeId == "" {
+			log.Fatalf("please supply a node id either on the command line or via NODEID_FILE")
+		}
 
 		apiClient, err := apiConnect()
 		if err != nil {
