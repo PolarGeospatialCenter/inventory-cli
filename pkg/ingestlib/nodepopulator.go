@@ -171,6 +171,9 @@ func (p *NodePopulator) DetectNetworks() (int, error) {
 	if err != nil {
 		return 0, err
 	}
+	if p.Node.Networks == nil {
+		p.Node.Networks = map[string]*inventorytypes.NICInfo{}
+	}
 	var updates int
 	for networkId, detected := range detected {
 		_, ok := p.Node.Networks[networkId]
