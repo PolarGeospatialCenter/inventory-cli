@@ -25,70 +25,118 @@ var cmdNode = &cobra.Command{
 	},
 }
 
+var systemName, roleName string
+
+func init() {
+	cmdNodeList.Flags().StringVarP(&systemName, "system", "s", "", "list only nodes from system")
+	cmdNodeList.Flags().StringVarP(&roleName, "role", "", "", "list only nodes from role")
+	cmdNode.AddCommand(cmdNodeList)
+	cmdNode.AddCommand(cmdNodeInteractiveCreate)
+	cmdNode.AddCommand(cmdNodeResetNetworks)
+	cmdNode.AddCommand(cmdNodeDetectNetworks)
+	rootCmd.AddCommand(cmdNode)
+}
+
 var cmdNodeList = &cobra.Command{
 	Use:   "list",
 	Short: "list all nodes",
-	Run: func(cmd *cobra.Command, args []string) {
-		apiClient, err := apiConnect()
-		if err != nil {
-			log.Fatalf("Unable to connect to api: %v", err)
+	Run:   ListNodes,
+}
+
+func ListNodes(cmd *cobra.Command, args []string) {
+	apiClient, err := apiConnect()
+	if err != nil {
+		log.Fatalf("Unable to connect to api: %v", err)
+	}
+
+	nodes, err := apiClient.Node().GetAll()
+	if err != nil {
+		log.Fatalf("unable to get nodes: %v", err)
+	}
+
+	for _, node := range nodes {
+		if systemName != "" && node.System != systemName {
+			continue
 		}
 
-		nodes, err := apiClient.Node().GetAll()
-		if err != nil {
-			log.Fatalf("unable to get nodes: %v", err)
+		if roleName != "" && node.Role != roleName {
+			continue
 		}
-
-		for _, node := range nodes {
-			fmt.Printf("%25s - %s\n", node.ID(), node.Hostname())
-		}
-	},
+		fmt.Printf("%25s - %s\n", node.ID(), node.Hostname())
+	}
 }
 
 var cmdNodeInteractiveCreate = &cobra.Command{
 	Use:   "create",
 	Short: "Create a node interactively",
-	Run: func(cmd *cobra.Command, args []string) {
-		apiClient, err := apiConnect()
-		if err != nil {
-			log.Fatalf("unable to connect to api server: %v", err)
-		}
-		systems, err := apiClient.System().GetAll()
-		if err != nil {
-			log.Fatalf("unable to get systems: %v", err)
-		}
+	Run:   NodeInteractiveCreate,
+}
 
-		networks, err := apiClient.Network().GetAll()
-		if err != nil {
-			log.Fatalf("unable to get systems: %v", err)
-		}
+func NodeInteractiveCreate(_ *cobra.Command, _ []string) {
+	apiClient, err := apiConnect()
+	if err != nil {
+		log.Fatalf("unable to connect to api: %v", err)
+	}
 
-		node := &types.Node{}
-		p := &ingestlib.NodePopulator{Node: node, Systems: systems, Networks: networks}
-		err = p.PopulateNode()
-		if err != nil {
-			log.Fatalf("Unable to populate node data: %v", err)
-		}
+	systems, err := apiClient.System().GetAll()
+	if err != nil {
+		log.Fatalf("unable to get systems: %v", err)
+	}
 
-		txt, err := json.MarshalIndent(p.Node, "", "  ")
-		if err != nil {
-			log.Fatalf("Unable to marshal node: %v", err)
-		}
+	networks, err := apiClient.Network().GetAll()
+	if err != nil {
+		log.Fatalf("unable to get systems: %v", err)
+	}
 
-		fmt.Printf("---------\n")
-		fmt.Printf("%s\n", string(txt))
-		prompt := promptui.Prompt{Label: "Create this node?", IsConfirm: true}
-		_, err = prompt.Run()
-		if err != nil {
-			log.Fatalf("Exiting without creating node.")
-		}
+	node := &types.Node{}
+	p := &ingestlib.NodePopulator{Node: node, Systems: systems, Networks: networks}
+	err = p.PopulateNode()
+	if err != nil {
+		log.Fatalf("Unable to populate node data: %v", err)
+	}
 
-		err = apiClient.Node().Create(p.Node)
-		if err != nil {
-			log.Printf("unable to create node: %v", err)
-		}
+	txt, err := json.MarshalIndent(p.Node, "", "  ")
+	if err != nil {
+		log.Fatalf("Unable to marshal node: %v", err)
+	}
 
-	},
+	fmt.Printf("---------\n")
+	fmt.Printf("%s\n", string(txt))
+	prompt := promptui.Prompt{Label: "Create this node?", IsConfirm: true}
+	_, err = prompt.Run()
+	if err != nil {
+		log.Fatalf("Exiting without creating node.")
+	}
+
+	err = apiClient.Node().Create(p.Node)
+	if err != nil {
+		log.Fatalf("unable to create node: %v", err)
+	}
+}
+
+var cmdNodeResetNetworks = &cobra.Command{
+	Use:   "reset-networks",
+	Short: "Reset networks configured for the node(s)",
+	Run:   NodeResetNetworks,
+}
+
+func NodeResetNetworks(_ *cobra.Command, args []string) {
+	apiClient, err := apiConnect()
+	if err != nil {
+		log.Fatalf("unable to connect to api: %v", err)
+	}
+
+	for _, nodeId := range args {
+		node, err := apiClient.Node().Get(nodeId)
+		if err != nil {
+			log.Fatalf("Unable to lookup node '%s': %v", nodeId, err)
+		}
+		node.Networks = make(map[string]*types.NICInfo, 0)
+		err = apiClient.Node().Update(node)
+		if err != nil {
+			log.Fatalf("Unable to reset networks for node '%s': %v", nodeId, err)
+		}
+	}
 }
 
 var cmdNodeDetectNetworks = &cobra.Command{
