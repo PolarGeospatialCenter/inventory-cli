@@ -2,253 +2,434 @@
 
 
 [[projects]]
-  branch = "ansible_inventory"
+  branch = "master"
+  digest = "1:5a967e76d4933715e15a9cbcc9c300a0a4f11dd93290471e8a43c4e63b7ec188"
   name = "github.com/PolarGeospatialCenter/inventory"
-  packages = ["pkg/api/client","pkg/inventory/types","pkg/ipam","pkg/lambdautils"]
-  revision = "770db01b05a8ef48d2097d03f69f5245ccf94255"
+  packages = [
+    "pkg/api/client",
+    "pkg/inventory/types",
+    "pkg/ipam",
+    "pkg/lambdautils",
+  ]
+  pruneopts = ""
+  revision = "7f8cdfb6b3634957e166d7bf0d052fe9c34c980d"
 
 [[projects]]
   branch = "master"
+  digest = "1:9b5be57aa84633e73392e294fb22934e602f08ef97103fb74453846761be4f4f"
   name = "github.com/PolarGeospatialCenter/vaulthelper"
   packages = ["pkg/vaulthelper"]
+  pruneopts = ""
   revision = "b939d74c3bd2c958dd7407e43db08aa23b9361f7"
 
 [[projects]]
+  digest = "1:8b55da6790eeade578c1fd4ebaa5b0e641072172e1d743f3cb945ae73af463f9"
   name = "github.com/aws/aws-lambda-go"
   packages = ["events"]
-  revision = "4d30d0ff60440c2d0480a15747c96ee71c3c53d4"
-  version = "v1.2.0"
+  pruneopts = ""
+  revision = "2d482ef09017ae953b1e8d5a6ddac5b696663a3c"
+  version = "v1.6.0"
 
 [[projects]]
+  digest = "1:e7bc25f207f70bb7e2a1b88c726bffa8eb4256ea17e5c8ab6e88f9b3c8f43a6f"
   name = "github.com/aws/aws-sdk-go"
-  packages = ["aws","aws/awserr","aws/awsutil","aws/client","aws/client/metadata","aws/corehandlers","aws/credentials","aws/credentials/ec2rolecreds","aws/credentials/endpointcreds","aws/credentials/stscreds","aws/csm","aws/defaults","aws/ec2metadata","aws/endpoints","aws/request","aws/session","aws/signer/v4","internal/sdkio","internal/sdkrand","internal/shareddefaults","private/protocol","private/protocol/json/jsonutil","private/protocol/jsonrpc","private/protocol/query","private/protocol/query/queryutil","private/protocol/rest","private/protocol/xml/xmlutil","service/dynamodb","service/dynamodb/dynamodbattribute","service/sts"]
-  revision = "16cb9f62f8a8b7af4f38725567f5ce762e1d562b"
-  version = "v1.14.21"
+  packages = [
+    "aws",
+    "aws/awserr",
+    "aws/awsutil",
+    "aws/client",
+    "aws/client/metadata",
+    "aws/corehandlers",
+    "aws/credentials",
+    "aws/credentials/ec2rolecreds",
+    "aws/credentials/endpointcreds",
+    "aws/credentials/stscreds",
+    "aws/crr",
+    "aws/csm",
+    "aws/defaults",
+    "aws/ec2metadata",
+    "aws/endpoints",
+    "aws/request",
+    "aws/session",
+    "aws/signer/v4",
+    "internal/ini",
+    "internal/sdkio",
+    "internal/sdkrand",
+    "internal/sdkuri",
+    "internal/shareddefaults",
+    "private/protocol",
+    "private/protocol/json/jsonutil",
+    "private/protocol/jsonrpc",
+    "private/protocol/query",
+    "private/protocol/query/queryutil",
+    "private/protocol/rest",
+    "private/protocol/xml/xmlutil",
+    "service/dynamodb",
+    "service/dynamodb/dynamodbattribute",
+    "service/sts",
+  ]
+  pruneopts = ""
+  revision = "ab1e4ad20b12ab0df8a825805de3e48ad6c59d28"
+  version = "v1.15.75"
 
 [[projects]]
   branch = "master"
+  digest = "1:9815d8eef7ed0c3515cdee0208b0b3730dda85386c4c9e56d5f10746d0150103"
   name = "github.com/azenk/iputils"
   packages = ["."]
-  revision = "a8405f62d18e52f9446ef8d9658e2e17d1eda1bf"
+  pruneopts = ""
+  revision = "d1883c0677d345c28f243fefa6008f3f044b6e17"
 
 [[projects]]
   branch = "master"
+  digest = "1:534bfc1a194affafadc94be31ac3e221de127e47c0c28b3fe8eddc7ca1656f2f"
   name = "github.com/chzyer/readline"
   packages = ["."]
+  pruneopts = ""
   revision = "2972be24d48e78746da79ba8e24e8b488c9880de"
 
 [[projects]]
+  digest = "1:eb53021a8aa3f599d29c7102e65026242bdedce998a54837dc67f14b6a97c5fd"
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
+  pruneopts = ""
   revision = "c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9"
   version = "v1.4.7"
 
 [[projects]]
-  name = "github.com/go-ini/ini"
-  packages = ["."]
-  revision = "06f5f3d67269ccec1fe5fe4134ba6e982984f7f5"
-  version = "v1.37.0"
-
-[[projects]]
+  digest = "1:b1c20a31ef35f8f4ffcaf3c8673fc93344e24f7eb621bd1dbdc4c258c80cca50"
   name = "github.com/go-resty/resty"
   packages = ["."]
-  revision = "fccc498aed22c31ff3768bcac00795f94149a21d"
-  version = "v1.7.0"
+  pruneopts = ""
+  revision = "13ff84ebd5bdfa46a342d9edb869e21560a478f8"
+  version = "v1.10.2"
 
 [[projects]]
   branch = "master"
+  digest = "1:2a5888946cdbc8aa360fd43301f9fc7869d663f60d5eedae7d4e6e5e4f06f2bf"
   name = "github.com/golang/snappy"
   packages = ["."]
+  pruneopts = ""
   revision = "2e65f85255dbc3072edf28d6b5b8efc472979f5a"
 
 [[projects]]
-  branch = "master"
+  digest = "1:8e3bd93036b4a925fe2250d3e4f38f21cadb8ef623561cd80c3c50c114b13201"
   name = "github.com/hashicorp/errwrap"
   packages = ["."]
-  revision = "7554cd9344cec97297fa6649b055a8c98c2a1e55"
+  pruneopts = ""
+  revision = "8a6fb523712970c966eefc6b39ed2c5e74880354"
+  version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
+  digest = "1:05334858a0cfb538622a066e065287f63f42bee26a7fda93a789674225057201"
   name = "github.com/hashicorp/go-cleanhttp"
   packages = ["."]
-  revision = "d5fe4b57a186c716b0e00b8c301cbd9b4182694d"
+  pruneopts = ""
+  revision = "e8ab9daed8d1ddd2d3c4efba338fe2eeae2e4f18"
+  version = "v0.5.0"
 
 [[projects]]
-  branch = "master"
+  digest = "1:72308fdd6d5ef61106a95be7ca72349a5565809042b6426a3cfb61d99483b824"
   name = "github.com/hashicorp/go-multierror"
   packages = ["."]
-  revision = "b7773ae218740a7be65057fc60b366a49b538a44"
+  pruneopts = ""
+  revision = "886a7fbe3eb1c874d46f623bfa70af45f425b3d1"
+  version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
+  digest = "1:62327a30877f944b5fd23d130487731a3004b319ff1864daa677d7e554898cc1"
   name = "github.com/hashicorp/go-retryablehttp"
   packages = ["."]
-  revision = "3b087ef2d313afe6c55b2f511d20db04ca767075"
+  pruneopts = ""
+  revision = "4502c0ecdaf0b50d857611af23831260f99be6bf"
+  version = "v0.5.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:ff65bf6fc4d1116f94ac305342725c21b55c16819c2606adc8f527755716937f"
   name = "github.com/hashicorp/go-rootcerts"
   packages = ["."]
+  pruneopts = ""
   revision = "6bb64b370b90e7ef1fa532be9e591a81c3493e00"
 
 [[projects]]
   branch = "master"
+  digest = "1:fd8ec2359315965bb6b84fd8e45cd5e8b58b80d8430dc96c8c5dfce46d30dbfc"
   name = "github.com/hashicorp/go-sockaddr"
   packages = ["."]
+  pruneopts = ""
   revision = "6d291a969b86c4b633730bfc6b8b9d64c3aafed9"
 
 [[projects]]
-  branch = "master"
+  digest = "1:d14365c51dd1d34d5c79833ec91413bfbb166be978724f15701e17080dc06dec"
   name = "github.com/hashicorp/hcl"
-  packages = [".","hcl/ast","hcl/parser","hcl/printer","hcl/scanner","hcl/strconv","hcl/token","json/parser","json/scanner","json/token"]
-  revision = "ef8a98b0bbce4a65b5aa4c368430a80ddc533168"
+  packages = [
+    ".",
+    "hcl/ast",
+    "hcl/parser",
+    "hcl/printer",
+    "hcl/scanner",
+    "hcl/strconv",
+    "hcl/token",
+    "json/parser",
+    "json/scanner",
+    "json/token",
+  ]
+  pruneopts = ""
+  revision = "8cb6e5b959231cc1119e43259c4a608f9c51a241"
+  version = "v1.0.0"
 
 [[projects]]
+  digest = "1:21c9f61b01d9bd8e8aee89e260e98c2940fab65853c6c5132e418b463dec5102"
   name = "github.com/hashicorp/vault"
-  packages = ["api","helper/compressutil","helper/hclutil","helper/jsonutil","helper/parseutil","helper/strutil"]
-  revision = "533003e27840d9646cb4e7d23b3a113895da1dd0"
-  version = "v0.10.3"
+  packages = [
+    "api",
+    "helper/compressutil",
+    "helper/consts",
+    "helper/hclutil",
+    "helper/jsonutil",
+    "helper/parseutil",
+    "helper/strutil",
+  ]
+  pruneopts = ""
+  revision = "a59ffa4a0f09bbf198241fe6793a96722789b639"
+  version = "v0.11.5"
 
 [[projects]]
+  digest = "1:870d441fe217b8e689d7949fef6e43efbc787e50f200cb1e70dbca9204a1d6be"
   name = "github.com/inconshreveable/mousetrap"
   packages = ["."]
+  pruneopts = ""
   revision = "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
   version = "v1.0"
 
 [[projects]]
+  digest = "1:6f49eae0c1e5dab1dafafee34b207aeb7a42303105960944828c2079b92fc88e"
   name = "github.com/jmespath/go-jmespath"
   packages = ["."]
+  pruneopts = ""
   revision = "0b12d6b5"
 
 [[projects]]
   branch = "master"
+  digest = "1:14a9763035ddd561bd2434463ff342a5cec5fd94730d2bd33d21a14714ee57e1"
   name = "github.com/juju/ansiterm"
-  packages = [".","tabwriter"]
+  packages = [
+    ".",
+    "tabwriter",
+  ]
+  pruneopts = ""
   revision = "720a0952cc2ac777afc295d9861263e2a4cf96a1"
 
 [[projects]]
   branch = "master"
+  digest = "1:a1df2b8580d14ed39468ed683fa344ef2ebabd77eccb45cbad057b30181bb6c0"
   name = "github.com/lunixbochs/vtclean"
   packages = ["."]
+  pruneopts = ""
   revision = "2d01aacdc34a083dca635ba869909f5fc0cd4f41"
 
 [[projects]]
+  digest = "1:961dc3b1d11f969370533390fdf203813162980c858e1dabe827b60940c909a5"
   name = "github.com/magiconair/properties"
   packages = ["."]
+  pruneopts = ""
   revision = "c2353362d570a7bfa228149c62842019201cfb71"
   version = "v1.8.0"
 
 [[projects]]
+  digest = "1:c681e70c7fa624be1d145c19ba5b4415b6107de934e18c067461e952266d2d71"
   name = "github.com/manifoldco/promptui"
-  packages = [".","list","screenbuf"]
-  revision = "3dd80c00b7cb0bc779d1c204da6f3ae0fa6a4eee"
-  version = "v0.3.0"
+  packages = [
+    ".",
+    "list",
+    "screenbuf",
+  ]
+  pruneopts = ""
+  revision = "157c96fb638a14d268b305cf2012582431fcc410"
+  version = "v0.3.1"
 
 [[projects]]
+  digest = "1:9ea83adf8e96d6304f394d40436f2eb44c1dc3250d223b74088cc253a6cd0a1c"
   name = "github.com/mattn/go-colorable"
   packages = ["."]
+  pruneopts = ""
   revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
   version = "v0.0.9"
 
 [[projects]]
+  digest = "1:3140e04675a6a91d2a20ea9d10bdadf6072085502e6def6768361260aee4b967"
   name = "github.com/mattn/go-isatty"
   packages = ["."]
-  revision = "0360b2af4f38e8d38c7fce2a9f4e702702d73a39"
-  version = "v0.0.3"
+  pruneopts = ""
+  revision = "6ca4dbf54d38eea1a992b3c722a76a5d1c4cb25c"
+  version = "v0.0.4"
 
 [[projects]]
   branch = "master"
+  digest = "1:096a8a9182648da3d00ff243b88407838902b6703fc12657f76890e08d1899bf"
   name = "github.com/mitchellh/go-homedir"
   packages = ["."]
-  revision = "3864e76763d94a6df2f9960b16a20a33da9f9a66"
+  pruneopts = ""
+  revision = "ae18d6b8b3205b561c79e8e5f69bff09736185f4"
 
 [[projects]]
-  branch = "master"
+  digest = "1:bcc46a0fbd9e933087bef394871256b5c60269575bb661935874729c65bbbf60"
   name = "github.com/mitchellh/mapstructure"
   packages = ["."]
-  revision = "bb74f1db0675b241733089d5a1faa5dd8b0ef57b"
+  pruneopts = ""
+  revision = "3536a929edddb9a5b34bd6861dc4a9647cb459fe"
+  version = "v1.1.2"
 
 [[projects]]
+  digest = "1:894aef961c056b6d85d12bac890bf60c44e99b46292888bfa66caf529f804457"
   name = "github.com/pelletier/go-toml"
   packages = ["."]
+  pruneopts = ""
   revision = "c01d1270ff3e442a8a57cddc1c92dc1138598194"
   version = "v1.2.0"
 
 [[projects]]
+  digest = "1:b1df71d0b2287062b90c6b4c8d3c934440aa0d2eb201d03f22be0f045860b4aa"
+  name = "github.com/pierrec/lz4"
+  packages = [
+    ".",
+    "internal/xxh32",
+  ]
+  pruneopts = ""
+  revision = "635575b42742856941dbc767b44905bb9ba083f6"
+  version = "v2.0.7"
+
+[[projects]]
+  digest = "1:29df111893b87bd947307aab294c042e900c2f29c53ad3896127955b4283728a"
   name = "github.com/ryanuber/go-glob"
   packages = ["."]
+  pruneopts = ""
   revision = "572520ed46dbddaed19ea3d9541bdd0494163693"
   version = "v0.1"
 
 [[projects]]
+  digest = "1:d0431c2fd72e39ee43ea7742322abbc200c3e704c9102c5c3c2e2e667095b0ca"
   name = "github.com/spf13/afero"
-  packages = [".","mem"]
-  revision = "787d034dfe70e44075ccc060d346146ef53270ad"
-  version = "v1.1.1"
+  packages = [
+    ".",
+    "mem",
+  ]
+  pruneopts = ""
+  revision = "d40851caa0d747393da1ffb28f7f9d8b4eeffebd"
+  version = "v1.1.2"
 
 [[projects]]
+  digest = "1:ae3493c780092be9d576a1f746ab967293ec165e8473425631f06658b6212afc"
   name = "github.com/spf13/cast"
   packages = ["."]
-  revision = "8965335b8c7107321228e3e3702cab9832751bac"
-  version = "v1.2.0"
+  pruneopts = ""
+  revision = "8c9545af88b134710ab1cd196795e7f2388358d7"
+  version = "v1.3.0"
 
 [[projects]]
+  digest = "1:a1403cc8a94b8d7956ee5e9694badef0e7b051af289caad1cf668331e3ffa4f6"
   name = "github.com/spf13/cobra"
   packages = ["."]
+  pruneopts = ""
   revision = "ef82de70bb3f60c65fb8eebacbb2d122ef517385"
   version = "v0.0.3"
 
 [[projects]]
-  branch = "master"
+  digest = "1:9ceffa4ab5f7195ecf18b3a7fff90c837a9ed5e22e66d18069e4bccfe1f52aa0"
   name = "github.com/spf13/jwalterweatherman"
   packages = ["."]
-  revision = "7c0cea34c8ece3fbeb2b27ab9b59511d360fb394"
+  pruneopts = ""
+  revision = "4a4406e478ca629068e7768fc33f3f044173c0a6"
+  version = "v1.0.0"
 
 [[projects]]
+  digest = "1:cbaf13cdbfef0e4734ed8a7504f57fe893d471d62a35b982bf6fb3f036449a66"
   name = "github.com/spf13/pflag"
   packages = ["."]
-  revision = "583c0c0531f06d5278b7d917446061adc344b5cd"
-  version = "v1.0.1"
+  pruneopts = ""
+  revision = "298182f68c66c05229eb03ac171abe6e309ee79a"
+  version = "v1.0.3"
 
 [[projects]]
+  digest = "1:1ed7a19588d3b74fc6a45fe89f95aa980a34870342fb9c3183b19cad08b18a1e"
   name = "github.com/spf13/viper"
   packages = ["."]
-  revision = "b5e8006cbee93ec955a89ab31e0e3ce3204f3736"
-  version = "v1.0.2"
+  pruneopts = ""
+  revision = "2c12c60302a5a0e62ee102ca9bc996277c2f64f5"
+  version = "v1.2.1"
 
 [[projects]]
   branch = "master"
+  digest = "1:fbc2896199a45d32325e24ceb56624c7db49f9cfb068f739ee53339a8fb183b3"
   name = "golang.org/x/net"
-  packages = ["context","http/httpguts","http2","http2/hpack","idna","publicsuffix"]
-  revision = "6f138e0f60713a248abf7046f1014a3ba90f5341"
+  packages = [
+    "http/httpguts",
+    "http2",
+    "http2/hpack",
+    "idna",
+    "publicsuffix",
+  ]
+  pruneopts = ""
+  revision = "88d92db4c548972d942ac2a3531a8a9a34c82ca6"
 
 [[projects]]
   branch = "master"
+  digest = "1:3f5c191d90f1cf365ff1f88e4b08eb766ee6ade1cb2e4efd7c316cf7e015ac17"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "1b2967e3c290b7c545b3db0deeda16e9be4f98a2"
+  pruneopts = ""
+  revision = "66b7b1311ac80bbafcd2daeef9a5e6e2cd1e2399"
 
 [[projects]]
+  digest = "1:5acd3512b047305d49e8763eef7ba423901e85d5dd2fd1e71778a0ea8de10bd4"
   name = "golang.org/x/text"
-  packages = ["collate","collate/build","internal/colltab","internal/gen","internal/tag","internal/triegen","internal/ucd","language","secure/bidirule","transform","unicode/bidi","unicode/cldr","unicode/norm","unicode/rangetable"]
+  packages = [
+    "collate",
+    "collate/build",
+    "internal/colltab",
+    "internal/gen",
+    "internal/tag",
+    "internal/triegen",
+    "internal/ucd",
+    "language",
+    "secure/bidirule",
+    "transform",
+    "unicode/bidi",
+    "unicode/cldr",
+    "unicode/norm",
+    "unicode/rangetable",
+  ]
+  pruneopts = ""
   revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
   version = "v0.3.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:14cb1d4240bcbbf1386ae763957e04e2765ec4e4ce7bb2769d05fa6faccd774e"
   name = "golang.org/x/time"
   packages = ["rate"]
-  revision = "fbb02b2291d28baffd63558aa44b4b56f178d650"
+  pruneopts = ""
+  revision = "85acf8d2951cb2a3bde7632f9ff273ef0379bcbd"
 
 [[projects]]
+  digest = "1:f0620375dd1f6251d9973b5f2596228cc8042e887cd7f827e4220bc1ce8c30e2"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
+  pruneopts = ""
   revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
   version = "v2.2.1"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "cf4b66ac7e4b90b2fd80c230d1baf560e7485627cbd7b5e794a81fa1977d2d12"
+  input-imports = [
+    "github.com/PolarGeospatialCenter/inventory/pkg/api/client",
+    "github.com/PolarGeospatialCenter/inventory/pkg/inventory/types",
+    "github.com/manifoldco/promptui",
+    "github.com/mitchellh/go-homedir",
+    "github.com/spf13/cobra",
+    "github.com/spf13/viper",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

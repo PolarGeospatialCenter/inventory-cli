@@ -22,20 +22,8 @@
 
 
 [[constraint]]
-  branch = "ansible_inventory"
-  name = "github.com/PolarGeospatialCenter/inventory"
-
-[[constraint]]
   branch = "master"
-  name = "github.com/PolarGeospatialCenter/vaulthelper"
-
-[[constraint]]
-  name = "github.com/aws/aws-sdk-go"
-  version = "1.14.21"
-
-[[constraint]]
-  name = "github.com/hashicorp/vault"
-  version = "0.10.3"
+  name = "github.com/PolarGeospatialCenter/inventory"
 
 [[constraint]]
   name = "github.com/manifoldco/promptui"
