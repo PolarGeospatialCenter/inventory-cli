@@ -3,7 +3,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:5a967e76d4933715e15a9cbcc9c300a0a4f11dd93290471e8a43c4e63b7ec188"
+  digest = "1:1be6ff904420799b8a583ec212bf88e60b6f2a0c7264bd986609677cf3cab48f"
   name = "github.com/PolarGeospatialCenter/inventory"
   packages = [
     "pkg/api/client",
@@ -12,7 +12,7 @@
     "pkg/lambdautils",
   ]
   pruneopts = ""
-  revision = "7f8cdfb6b3634957e166d7bf0d052fe9c34c980d"
+  revision = "ace540136130a8c219197f30cdcee15225af2e50"
 
 [[projects]]
   branch = "master"
@@ -266,12 +266,12 @@
   version = "v0.0.4"
 
 [[projects]]
-  branch = "master"
   digest = "1:096a8a9182648da3d00ff243b88407838902b6703fc12657f76890e08d1899bf"
   name = "github.com/mitchellh/go-homedir"
   packages = ["."]
   pruneopts = ""
   revision = "ae18d6b8b3205b561c79e8e5f69bff09736185f4"
+  version = "v1.0.0"
 
 [[projects]]
   digest = "1:bcc46a0fbd9e933087bef394871256b5c60269575bb661935874729c65bbbf60"
@@ -427,9 +427,7 @@
     "github.com/PolarGeospatialCenter/inventory/pkg/api/client",
     "github.com/PolarGeospatialCenter/inventory/pkg/inventory/types",
     "github.com/manifoldco/promptui",
-    "github.com/mitchellh/go-homedir",
     "github.com/spf13/cobra",
-    "github.com/spf13/viper",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
