@@ -1,8 +1,5 @@
-vendor: Gopkg.lock
-	dep ensure
-
-test: vendor
+test:
 	go test -cover ./cmd/...
 
-linux: vendor
+linux:
 	GOOS=linux go build -o bin/inventory-cli.linux .
