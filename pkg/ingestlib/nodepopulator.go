@@ -238,7 +238,7 @@ func DetectNetworks(networks []*inventorytypes.Network) (NetworkInterfaceMap, er
 
 			network := LookupNetworkByIp(networks, ipAddr)
 			if network != nil {
-				log.Printf("Found network %s at %s", network.ID(), iface.Name)
+				log.Printf("Found network %s (%s) at %s", network.ID(), iface.HardwareAddr, iface.Name)
 				detected.AddNIC(network.ID(), iface.HardwareAddr)
 				break
 			}
