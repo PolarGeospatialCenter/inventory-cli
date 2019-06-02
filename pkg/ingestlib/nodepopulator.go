@@ -206,11 +206,15 @@ type NetworkInterfaceMap map[string]*inventorytypes.NetworkInterface
 
 func (m NetworkInterfaceMap) AddNIC(networkId string, mac net.HardwareAddr) {
 	var iface *inventorytypes.NetworkInterface
-	if iface, ok := m[networkId]; !ok {
+	iface, ok := m[networkId]
+	if !ok {
 		iface = &inventorytypes.NetworkInterface{NICs: []net.HardwareAddr{}}
-		m[networkId] = iface
+	}
+	if iface.NICs == nil {
+		iface.NICs = []net.HardwareAddr{}
 	}
 	iface.NICs = append(iface.NICs, mac)
+	m[networkId] = iface
 }
 
 func DetectNetworks(networks []*inventorytypes.Network) (NetworkInterfaceMap, error) {
