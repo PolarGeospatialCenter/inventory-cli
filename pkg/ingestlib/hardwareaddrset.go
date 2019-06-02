@@ -5,7 +5,7 @@ import "net"
 type HardwareAddrSet map[string]net.HardwareAddr
 
 func NewHardwareAddrSet(macs ...net.HardwareAddr) HardwareAddrSet {
-	set := make(HardwareAddrSet, len(macs))
+	set := make(HardwareAddrSet)
 	set.Add(macs...)
 	return set
 }
@@ -17,7 +17,7 @@ func (s HardwareAddrSet) Add(macs ...net.HardwareAddr) {
 }
 
 func (s HardwareAddrSet) Get() []net.HardwareAddr {
-	r := make([]net.HardwareAddr, len(s))
+	r := make([]net.HardwareAddr, 0, len(s))
 	for _, mac := range s {
 		r = append(r, mac)
 	}
