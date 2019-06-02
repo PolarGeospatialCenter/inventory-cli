@@ -172,19 +172,21 @@ func (p *NodePopulator) DetectNetworks() (int, error) {
 		return 0, err
 	}
 	if p.Node.Networks == nil {
-		p.Node.Networks = map[string]*inventorytypes.NICInfo{}
+		p.Node.Networks = map[string]*inventorytypes.NetworkInterface{}
 	}
 	var updates int
 	for networkId, detected := range detected {
 		_, ok := p.Node.Networks[networkId]
 		if !ok {
-			p.Node.Networks[networkId] = &inventorytypes.NICInfo{}
+			p.Node.Networks[networkId] = &inventorytypes.NetworkInterface{}
 		}
 
-		if p.Node.Networks[networkId].MAC.String() != detected.MAC.String() {
-			p.Node.Networks[networkId].MAC = detected.MAC
-			updates += 1
-		}
+		existingNics := NewHardwareAddrSet(p.Node.Networks[networkId].NICs...)
+		detectedNics := NewHardwareAddrSet(detected.NICs...)
+		mergedNics := existingNics.Union(detectedNics)
+
+		p.Node.Networks[networkId].NICs = mergedNics.Get()
+		updates += len(mergedNics) - len(existingNics)
 	}
 	return updates, nil
 }
@@ -200,12 +202,23 @@ func LookupNetworkByIp(networks []*inventorytypes.Network, ip net.IP) *inventory
 	return nil
 }
 
-func DetectNetworks(networks []*inventorytypes.Network) (map[string]*inventorytypes.NICInfo, error) {
+type NetworkInterfaceMap map[string]*inventorytypes.NetworkInterface
+
+func (m NetworkInterfaceMap) AddNIC(networkId string, mac net.HardwareAddr) {
+	var iface *inventorytypes.NetworkInterface
+	if iface, ok := m[networkId]; !ok {
+		iface = &inventorytypes.NetworkInterface{NICs: []net.HardwareAddr{}}
+		m[networkId] = iface
+	}
+	iface.NICs = append(iface.NICs, mac)
+}
+
+func DetectNetworks(networks []*inventorytypes.Network) (NetworkInterfaceMap, error) {
 	ifaces, err := net.Interfaces()
 	if err != nil {
 		return nil, fmt.Errorf("Unable to list interfaces: %v", err)
 	}
-	detected := make(map[string]*inventorytypes.NICInfo, len(ifaces))
+	detected := make(NetworkInterfaceMap, len(ifaces))
 	for _, iface := range ifaces {
 		addrs, err := iface.Addrs()
 		if err != nil {
@@ -222,7 +235,7 @@ func DetectNetworks(networks []*inventorytypes.Network) (map[string]*inventoryty
 			network := LookupNetworkByIp(networks, ipAddr)
 			if network != nil {
 				log.Printf("Found network %s at %s", network.ID(), iface.Name)
-				detected[network.ID()] = &inventorytypes.NICInfo{MAC: iface.HardwareAddr}
+				detected.AddNIC(network.ID(), iface.HardwareAddr)
 				break
 			}
 		}

@@ -131,7 +131,7 @@ func NodeResetNetworks(_ *cobra.Command, args []string) {
 		if err != nil {
 			log.Fatalf("Unable to lookup node '%s': %v", nodeId, err)
 		}
-		node.Networks = make(map[string]*types.NICInfo, 0)
+		node.Networks = make(types.NICInfoMap, 0)
 		err = apiClient.Node().Update(node)
 		if err != nil {
 			log.Fatalf("Unable to reset networks for node '%s': %v", nodeId, err)
