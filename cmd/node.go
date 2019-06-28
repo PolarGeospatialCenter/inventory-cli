@@ -34,6 +34,8 @@ func init() {
 	cmdNode.AddCommand(cmdNodeInteractiveCreate)
 	cmdNode.AddCommand(cmdNodeResetNetworks)
 	cmdNode.AddCommand(cmdNodeDetectNetworks)
+	cmdNode.AddCommand(cmdNodeShow)
+	cmdNode.AddCommand(cmdSetSerialConsole)
 	rootCmd.AddCommand(cmdNode)
 }
 
@@ -114,6 +116,32 @@ func NodeInteractiveCreate(_ *cobra.Command, _ []string) {
 	}
 }
 
+var cmdNodeShow = &cobra.Command{
+	Use:   "show",
+	Short: "show node",
+	Run:   ShowNode,
+}
+
+func ShowNode(_ *cobra.Command, args []string) {
+	apiClient, err := apiConnect()
+	if err != nil {
+		log.Fatalf("unable to connect to api: %v", err)
+	}
+
+	for _, nodeId := range args {
+		node, err := apiClient.NodeConfig().Get(nodeId)
+		if err != nil {
+			log.Fatalf("Unable to get node config for %s: %v", nodeId, err)
+		}
+
+		nodeJson, err := json.Marshal(node)
+		if err != nil {
+			log.Fatalf("Unable to marshal json for node %s: %v", nodeId, err)
+		}
+		fmt.Print(string(nodeJson))
+	}
+}
+
 var cmdNodeResetNetworks = &cobra.Command{
 	Use:   "reset-networks",
 	Short: "Reset networks configured for the node(s)",
@@ -137,6 +165,35 @@ func NodeResetNetworks(_ *cobra.Command, args []string) {
 			log.Fatalf("Unable to reset networks for node '%s': %v", nodeId, err)
 		}
 	}
+}
+
+var cmdSetSerialConsole = &cobra.Command{
+	Use:   "set-console <serial_console> <node>...",
+	Short: "Set serial console metadata for node",
+	Run: func(_ *cobra.Command, args []string) {
+		apiClient, err := apiConnect()
+		if err != nil {
+			log.Fatalf("unable to connect to api: %v", err)
+		}
+
+		if len(args) < 2 {
+			log.Fatalf("Must specify a serial configuration and at least one node")
+		}
+
+		serialConsole := args[0]
+
+		for _, nodeId := range args[1:] {
+			node, err := apiClient.Node().Get(nodeId)
+			if err != nil {
+				log.Fatalf("error getting node %s: %v", nodeId, err)
+			}
+			node.Metadata["serial_console"] = serialConsole
+			err = apiClient.Node().Update(node)
+			if err != nil {
+				log.Fatalf("error updating serial console for node %s: %v", nodeId, err)
+			}
+		}
+	},
 }
 
 var cmdNodeDetectNetworks = &cobra.Command{
