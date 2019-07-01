@@ -62,12 +62,16 @@ type NodePopulator struct {
 	Networks []*inventorytypes.Network
 }
 
-func SelectLoop(sel promptui.Select) (int, string) {
+func SelectLoop(sel promptui.Select, selectedIndex int) (int, string) {
 	err := fmt.Errorf("Not run")
 	var idx int
 	var value string
 	for err != nil {
-		idx, value, err = sel.Run()
+		var scroll int
+		if selectedIndex != 0 {
+			scroll = sel.Size * sel.Size / selectedIndex
+		}
+		idx, value, err = sel.RunCursorAt(selectedIndex, scroll)
 		if err != nil && err.Error() == "^C" {
 			log.Fatalf("Got interrupt, exiting...")
 		}
@@ -121,14 +125,18 @@ func (p *NodePopulator) ReadChassisSubIndex() string {
 
 func (p *NodePopulator) ReadSystem(systems []*inventorytypes.System) *inventorytypes.System {
 	systemNames := []string{}
-	for _, system := range systems {
+	var selectedSystem int
+	for i, system := range systems {
+		if system.ID() == p.Node.System {
+			selectedSystem = i
+		}
 		systemNames = append(systemNames, system.Name)
 	}
 	prompt := promptui.Select{
 		Label: "Please select a system",
 		Items: systemNames,
 	}
-	systemIdx, _ := SelectLoop(prompt)
+	systemIdx, _ := SelectLoop(prompt, selectedSystem)
 	return systems[systemIdx]
 }
 
@@ -137,20 +145,32 @@ func (p *NodePopulator) ReadRole(system *inventorytypes.System) string {
 		Label: "Please select a role",
 		Items: system.Roles,
 	}
-	_, role := SelectLoop(prompt)
+
+	var selected int
+	for i, role := range system.Roles {
+		if role == p.Node.Role {
+			selected = i
+		}
+	}
+	_, role := SelectLoop(prompt, selected)
 	return role
 }
 
 func (p *NodePopulator) ReadEnvironment(system *inventorytypes.System) string {
 	environments := make([]string, 0, len(system.Environments))
+	var selected, i int
 	for env, _ := range system.Environments {
+		if env == p.Node.Environment {
+			selected = i
+		}
+		i++
 		environments = append(environments, env)
 	}
 	prompt := promptui.Select{
 		Label: "Please select an environment",
 		Items: environments,
 	}
-	_, environment := SelectLoop(prompt)
+	_, environment := SelectLoop(prompt, selected)
 	return environment
 }
 

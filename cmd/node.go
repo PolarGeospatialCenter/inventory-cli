@@ -32,6 +32,7 @@ func init() {
 	cmdNodeList.Flags().StringVarP(&roleName, "role", "", "", "list only nodes from role")
 	cmdNode.AddCommand(cmdNodeList)
 	cmdNode.AddCommand(cmdNodeInteractiveCreate)
+	cmdNode.AddCommand(cmdNodeInteractiveUpdate)
 	cmdNode.AddCommand(cmdNodeResetNetworks)
 	cmdNode.AddCommand(cmdNodeDetectNetworks)
 	cmdNode.AddCommand(cmdNodeShow)
@@ -113,6 +114,60 @@ func NodeInteractiveCreate(_ *cobra.Command, _ []string) {
 	err = apiClient.Node().Create(p.Node)
 	if err != nil {
 		log.Fatalf("unable to create node: %v", err)
+	}
+}
+
+var cmdNodeInteractiveUpdate = &cobra.Command{
+	Use:   "update",
+	Short: "Update a node interactively",
+	Run:   NodeInteractiveUpdate,
+}
+
+func NodeInteractiveUpdate(_ *cobra.Command, args []string) {
+	apiClient, err := apiConnect()
+	if err != nil {
+		log.Fatalf("unable to connect to api: %v", err)
+	}
+
+	systems, err := apiClient.System().GetAll()
+	if err != nil {
+		log.Fatalf("unable to get systems: %v", err)
+	}
+
+	networks, err := apiClient.Network().GetAll()
+	if err != nil {
+		log.Fatalf("unable to get systems: %v", err)
+	}
+
+	for _, nodeId := range args {
+		node, err := apiClient.Node().Get(nodeId)
+		if err != nil {
+			log.Fatalf("Unable to get node %s: %v", nodeId, err)
+		}
+		p := &ingestlib.NodePopulator{Node: node, Systems: systems, Networks: networks}
+		err = p.PopulateNode()
+		if err != nil {
+			log.Fatalf("Unable to populate node data: %v", err)
+		}
+
+		txt, err := json.MarshalIndent(p.Node, "", "  ")
+		if err != nil {
+			log.Fatalf("Unable to marshal node: %v", err)
+		}
+
+		fmt.Printf("---------\n")
+		fmt.Printf("%s\n", string(txt))
+		prompt := promptui.Prompt{Label: "Update this node?", IsConfirm: true}
+		_, err = prompt.Run()
+		if err != nil {
+			log.Printf("Continuing without updating node.")
+			continue
+		}
+
+		err = apiClient.Node().Update(p.Node)
+		if err != nil {
+			log.Fatalf("unable to create node: %v", err)
+		}
 	}
 }
 
