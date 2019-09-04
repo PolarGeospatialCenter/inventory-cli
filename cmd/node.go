@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net"
 	"os"
 	"strings"
 	"time"
@@ -37,6 +38,7 @@ func init() {
 	cmdNode.AddCommand(cmdNodeDetectNetworks)
 	cmdNode.AddCommand(cmdNodeShow)
 	cmdNode.AddCommand(cmdSetSerialConsole)
+	cmdNode.AddCommand(cmdNodeSetIP)
 	rootCmd.AddCommand(cmdNode)
 }
 
@@ -219,6 +221,88 @@ func NodeResetNetworks(_ *cobra.Command, args []string) {
 		if err != nil {
 			log.Fatalf("Unable to reset networks for node '%s': %v", nodeId, err)
 		}
+	}
+}
+
+var cmdNodeSetIP = &cobra.Command{
+	Use:   "set-ip",
+	Short: "Attempts to claim the specified IP for the node",
+	Run:   NodeSetIP,
+}
+
+func NodeSetIP(_ *cobra.Command, args []string) {
+	apiClient, err := apiConnect()
+	if err != nil {
+		log.Fatalf("unable to connect to api: %v", err)
+	}
+
+	if len(args) != 2 {
+		log.Fatalf("arguments must be <node-id> <ip>")
+	}
+
+	ipAddr := net.ParseIP(args[1])
+	if ipAddr == nil {
+		log.Fatalf("arguments must be <node-id> <ip>")
+	}
+
+	existingReservation, err := apiClient.IPAM().GetIPReservation(ipAddr)
+	if existingReservation != nil && err == nil {
+		log.Fatalf("a reservation for this ip already exists: %v", existingReservation)
+	}
+
+	node, err := apiClient.Node().Get(args[0])
+	if err != nil {
+		log.Fatalf("unable to lookup node '%s': %v", args[0], err)
+	}
+
+	networks, err := apiClient.Network().GetAll()
+	if err != nil {
+		log.Fatalf("unable to lookup networks: %v", err)
+	}
+
+	var matchingSubnet *net.IPNet
+	var matchingNetwork string
+
+	for _, network := range networks {
+		if nicInfo, ok := node.Networks[network.ID()]; !ok || len(nicInfo.NICs) == 0 {
+			// no nic on this network, continue
+			continue
+		}
+
+		for _, subnet := range network.Subnets {
+			if subnet.Cidr.Contains(ipAddr) {
+				matchingSubnet = subnet.Cidr
+				matchingNetwork = network.ID()
+				break
+			}
+		}
+
+		if matchingSubnet != nil {
+			break
+		}
+	}
+
+	if matchingSubnet == nil {
+		log.Fatalf("unable to find matching subnet for ip on any network this host is connected to")
+	}
+
+	// Found matching subnet with attached nic, now try to claim the IP
+	macAddr := node.Networks[matchingNetwork].NICs[0]
+	// Delete existing reservations for this mac
+	existingReservations, err := apiClient.IPAM().GetIPReservationsByMAC(macAddr)
+	if existingReservations != nil {
+		for _, reservation := range existingReservations {
+			if matchingSubnet.Contains(reservation.IP.IP) {
+				err = apiClient.IPAM().DeleteIPReservation(reservation)
+				if err != nil {
+					log.Fatalf("unable to delete reservation for existing ip (%s): %v", reservation.IP.String(), err)
+				}
+			}
+		}
+	}
+	_, err = apiClient.IPAM().CreateIPReservation(&types.IpamIpRequest{HwAddress: macAddr.String()}, ipAddr)
+	if err != nil {
+		log.Fatalf("error reserving requested IP: %v", err)
 	}
 }
 
